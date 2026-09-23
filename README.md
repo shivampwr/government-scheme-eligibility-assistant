@@ -1,189 +1,507 @@
-# 🏛️ Government Scheme Discovery & Eligibility Assistant
-### *A Hybrid Multi-Agent AI Framework for Citizen Empowerment*
+# AI Based Government Scheme & Eligibility Assistant System
 
-[![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![React Version](https://img.shields.io/badge/React-18.0-61dafb.svg)](https://react.dev/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
-[![Playwright](https://img.shields.io/badge/Scraper-Playwright%20Chromium-green.svg)](https://playwright.dev/)
-[![Python Pipeline](https://img.shields.io/badge/Orchestration-AgentState%20Pipeline-orange.svg)](https://fastapi.tiangolo.com/)
+### AI-Powered Government Scheme Discovery, Eligibility Analysis & Citizen Assistance Platform
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![React](https://img.shields.io/badge/React-18-61DAFB)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-Frontend-38B2AC)
+![Gemini](https://img.shields.io/badge/AI-Gemini-orange)
+![Playwright](https://img.shields.io/badge/Web%20Scraping-Playwright-green)
+![RAG](https://img.shields.io/badge/RAG-ChromaDB-purple)
+![Project](https://img.shields.io/badge/Project-Major%20Project-red)
 
 ---
 
 ## 📌 Project Overview
 
-The **Government Scheme Discovery & Eligibility Assistant** is a hybrid multi-agent AI application designed to eliminate information asymmetry in public welfare distribution. Instead of requiring citizens to navigate dense bureaucratic language across fragmented portals, this platform converts plain natural language queries (via text or voice) into structured demographic profiles, matches them against government policy rules, and provides instant eligibility determination, document checklists, and application guidance.
+**AI Based Government Scheme & Eligibility Assistant System** is an AI-powered platform designed to help citizens discover relevant government schemes and understand their eligibility requirements through a simple conversational interface.
 
-The system features a **Dual-Engine Retrieval & Dynamic DOM Scraping Architecture**:
-1. **Primary Local RAG Engine (100 Master Schemes):** Performs semantic search over a pre-indexed vector store of **100+ official government schemes** (covering Agriculture, Health, Housing, Education, Women Welfare, MSME Loans, Pensions, Employment, State Flagships, and Clean Energy).
-2. **Playwright Headless Chromium DOM Scraper:** Dynamically renders Next.js SPA pages on `myscheme.gov.in`, switches between Online and Offline application tabs, and extracts exact inner text from `#benefits`, `#eligibility`, `#documents-required`, and `#application-process` elements with 100% fidelity.
-3. **Fallback Serper API Web Search Agent:** Automatically triggers live Google Search queries targeted at official government domains (`site:gov.in`, `myscheme.gov.in`) via **Serper API** whenever vector retrieval similarity confidence falls below threshold ($S < 0.70$), guaranteeing coverage of 500+ central and state schemes.
+The system allows users to provide information about their **age, occupation, income, location, family status, category and requirements** using natural language. The platform processes this information and identifies potentially relevant government schemes.
+
+The system combines:
+
+- AI-based user profile extraction
+- Eligibility analysis
+- Retrieval-Augmented Generation (RAG)
+- Local government scheme knowledge base
+- Web-based government scheme information retrieval
+- Voice input and text-to-speech
+- Document requirement guidance
+- Conversational AI assistance
+
+The primary goal of this project is to reduce the difficulty of finding and understanding government welfare schemes by providing citizens with a simple, accessible and intelligent interface.
+
+---
+
+## 🎯 Objectives
+
+The major objectives of this project are:
+
+1. Help citizens discover government schemes relevant to their profile.
+2. Analyze eligibility requirements using user-provided information.
+3. Convert natural-language queries into structured user profiles.
+4. Retrieve relevant information from a local government-scheme knowledge base.
+5. Fetch additional information from government websites when required.
+6. Provide eligibility explanations in a simple and understandable format.
+7. Display required documents and application-related information.
+8. Support voice-based interaction for improved accessibility.
+9. Reduce the information gap between citizens and government welfare programs.
 
 ---
 
 ## ✨ Key Features
 
-- 🤖 **Autonomous Multi-Agent Orchestration (AgentState Pipeline):** Powered by specialized agents (Profile Extractor, Router, Local RAG, Playwright Scraper, Serper Web Search, Gemini 2.5 Flash Adjudicator, Counselor) that collaborate to deliver precise results.
-- 🎭 **Playwright Headless Chromium DOM Scraper:** Renders dynamic React elements on `myscheme.gov.in`, force-clicks the "Offline" application tab, and extracts clean, non-truncated section text.
-- 🎯 **LLM Dynamic Policy Adjudicator & Disqualification Filter:** Uses `gemini-2.5-flash` to evaluate user demographics against scheme policy constraints (age bounds, income ceilings). Automatically filters out disqualified schemes from recommendation cards.
-- 🚨 **Ineligibility Notices:** Renders explicit disqualification warnings (e.g. `⚠️ Ineligibility Notice: User age 45 is below required 60+`) when ineligible schemes are requested.
-- 🗣️ **Voice & Speech Accessibility:** Built-in Speech-to-Text (STT) input and Text-to-Speech (TTS) natural audio synthesis via gTTS for low-literacy empowerment.
-- 🌐 **Multilingual Indian Regional Support:** High-speed batch translation engine supporting 10+ regional Indian languages (Hindi, Bengali, Marathi, Tamil, Telugu, Gujarati, Punjabi, etc.).
-- 🔗 **Clickable External Portal Hyperlinking:** Sanitizes and renders direct clickable links to official government application portals (`https://sspy-up.gov.in`, `https://edistrict.up.gov.in`) opening seamlessly in new browser tabs.
-- 📱 **Modern Reactive Interface:** Sleek web dashboard built using **React.js 18 + Vite + Tailwind CSS + Lucide Icons**.
+### 🤖 AI-Powered Profile Analysis
+
+The system extracts important information from natural-language queries, including:
+
+- Age
+- Gender
+- Occupation
+- Annual income
+- State
+- District
+- Farmer/business/student status
+- Family-related information
+- User requirements
 
 ---
 
-## 📐 Architecture & Workflow Diagrams
+### 🎯 Eligibility Analysis
 
-### Overall Multi-Agent Pipeline
+The eligibility engine compares the user's profile with available scheme requirements and provides relevant eligibility information.
 
-```mermaid
-graph TD
-    User([Citizen / User Input: Text or Voice]) -->|User Query / Audio| UI[React.js Web App]
+The system can analyze conditions such as:
 
-    subgraph InputLayer ["Frontend & Accessibility Layer (React + Tailwind CSS)"]
-        UI -->|Voice Audio| AudioParser["Speech-to-Text Converter"]
-        AudioParser -->|Parsed JSON Text| Backend[FastAPI REST Server]
-        UI -->|Direct Text Query| Backend
-    end
-
-    subgraph Orchestration ["Multi-Agent Orchestration Framework (LangGraph)"]
-        Backend --> ProfileAgent[1. Profile Extraction Agent]
-        ProfileAgent -->|JSON Demographics| ClarifyCheck{Profile Complete?}
-        ClarifyCheck -->|No: Missing Info| ClarifyUser[Prompt for Missing Field]
-        ClarifyUser --> UI
-
-        ClarifyCheck -->|Yes: Complete JSON| RouterAgent{Routing & Retrieval Manager}
-
-        RouterAgent -->|1. Primary Retrieval| RAGAgent[2a. Local Vector DB RAG Agent]
-        RAGAgent -->|Semantic Search| VectorDB[("ChromaDB Vector Store<br/>Playwright Scraped Text + Scheme PDFs")]
-
-        VectorDB -->|Retrieved Context + Score| ConfidenceCheck{Similarity Score >= 0.70?}
-
-        ConfidenceCheck -->|Yes: High Confidence| AdjudicatorAgent[3. Gemini 2.5 Flash Policy Adjudicator]
-        ConfidenceCheck -->|No: Low Match| WebAgent[2b. Serper API Web Search Agent]
-
-        WebAgent -->|Google Search API| SerperAPI["Serper API<br/>site:gov.in targeted"]
-        SerperAPI --> PlaywrightScraper["Playwright Chromium Scraper<br/>Extracts #benefits, #eligibility, #docs, #process"]
-
-        PlaywrightScraper --> AdjudicatorAgent
-
-        AdjudicatorAgent -->|Disqualification Filter & Match Score| CounselorAgent[4. Counselor & Guidance Agent]
-        CounselorAgent -->|Generate Guidance & Checklists| Translator[Multilingual Translation Engine]
-    end
-
-    subgraph OutputLayer ["Response & Voice Playback Layer"]
-        Translator -->|Structured JSON Response| BackendResponse[FastAPI Response Router]
-        BackendResponse -->|Display Scorecards, Cards, & Checklists| UI
-        BackendResponse -->|Audio Stream| TTS["Text-to-Speech Engine (gTTS)"]
-        TTS -->|Voice Output| UI
-    end
-```
+- Minimum and maximum age
+- Income limits
+- Occupation requirements
+- Location/state restrictions
+- Category requirements
+- Other scheme-specific conditions
 
 ---
 
-## 🛠️ Technology Stack
+### 🔎 Government Scheme Discovery
 
-| Domain | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Frontend Framework** | **React 18 + Vite** | High-performance user interface development |
-| **Styling & UI** | **Tailwind CSS + Lucide Icons** | Responsive design system and components |
-| **Backend Framework** | **Python 3.10+ & FastAPI** | Async REST API server |
-| **Multi-Agent Engine** | **Python AgentState Pipeline** | State graph multi-agent routing |
-| **DOM Scraper** | **Playwright Headless Chromium** | Scrapes Next.js SPA pages (`#benefits`, `#eligibility`, `#docs`, `#process`) |
-| **LLM Reasoning** | **Google Gemini 2.5 Flash (`gemini-2.5-flash`)** | Profile extraction, dynamic policy adjudication, and summary cleaning |
-| **Vector DB / RAG** | **ChromaDB + Sentence Transformers** | Semantic vector storage and similarity retrieval |
-| **Live Web Search** | **Serper API (`serper.dev`)** | Targeted Google Search over `site:gov.in` |
-| **Speech Processing** | **Web Speech API** (STT) & **gTTS** (TTS) | Audio transcription and voice synthesis |
-| **Translation Engine** | **Deep Translator** | High-speed batch translation to Indian regional languages |
+The application maintains a local knowledge base containing information about government schemes covering areas such as:
 
----
-
-## ⚡ Quick Start & Installation Guide
-
-### Prerequisites
-- **Python:** 3.10 or higher installed
-- **Node.js:** v18.0.0 or higher installed
-- **Git:** Version control
-- **Playwright Chromium:** Installed via `playwright install chromium`
-- **API Keys:**
-  - Google Gemini API Key ([Get here](https://aistudio.google.com/))
-  - Serper API Key ([Get here](https://serper.dev/))
+- Agriculture
+- Education
+- Healthcare
+- Housing
+- Women & Child Welfare
+- Employment
+- Skill Development
+- Loans & MSME
+- Pensions
+- Social Security
+- Renewable Energy
+- Rural Development
 
 ---
 
-### 1. Backend Setup
+### 📚 Retrieval-Augmented Generation
 
-```bash
-# Clone repository
-git clone https://github.com/vgarg05/Government-Scheme-Discovery-Eligibility-Assistant.git
-cd Government-Scheme-Discovery-Eligibility-Assistant/backend
+The project uses a **Retrieval-Augmented Generation (RAG)** approach to retrieve relevant scheme information from locally processed scheme documents before generating AI responses.
 
-# Create virtual environment
+This helps the system provide responses based on relevant scheme information available in its knowledge base.
+
+---
+
+### 🌐 Web Information Retrieval
+
+When locally available information is insufficient, the system can retrieve additional information through web search and government website scraping mechanisms.
+
+Technologies used include:
+
+- Serper API
+- Playwright
+- Chromium
+- Government website sources
+
+---
+
+### 🗣️ Voice Accessibility
+
+The platform provides voice-related functionality including:
+
+- Speech-to-Text
+- Text-to-Speech
+- Voice-based interaction
+
+This can make the system more accessible to users who prefer speaking instead of typing.
+
+---
+
+### 📄 Document Checklist
+
+For relevant schemes, the application provides information about documents that may be required during the application process.
+
+---
+
+### 💬 Conversational Interface
+
+Users can interact with the system using natural language instead of navigating through complicated government portals.
+
+Example:
+
+> "I am a 25-year-old farmer from Madhya Pradesh with an annual income of ₹2 lakh. Which government schemes can I apply for?"
+
+The system processes the query and provides relevant scheme information along with eligibility-related details.
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                         ┌───────────────────────┐
+                         │         USER          │
+                         │   Text / Voice Query  │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │    React Frontend     │
+                         │    + Tailwind CSS     │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │    FastAPI Backend    │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │   AI Orchestrator     │
+                         └───────────┬───────────┘
+                                     │
+              ┌──────────────────────┼──────────────────────┐
+              │                      │                      │
+              ▼                      ▼                      ▼
+      ┌───────────────┐      ┌───────────────┐      ┌───────────────┐
+      │ Profile Agent │      │    RAG Agent  │      │   Web Agent   │
+      └───────┬───────┘      └───────┬───────┘      └───────┬───────┘
+              │                      │                      │
+              │                      ▼                      ▼
+              │               Local Scheme            Serper API /
+              │               Knowledge Base          Playwright
+              │
+              ▼
+      ┌───────────────────┐
+      │ Eligibility Agent │
+      └─────────┬─────────┘
+                │
+                ▼
+      ┌───────────────────┐
+      │ Counselor / AI    │
+      │ Response Engine   │
+      └─────────┬─────────┘
+                │
+                ▼
+      ┌───────────────────┐
+      │ User-Friendly     │
+      │ Scheme Results    │
+      └───────────────────┘
+
+
+
+
+
+
+    AI & Retrieval Pipeline
+User Query
+    ↓
+Profile Extraction
+    ↓
+Query Routing
+    ↓
+Local Knowledge Retrieval
+    ↓
+Eligibility Analysis
+    ↓
+Web Retrieval (if required)
+    ↓
+AI Response Generation
+    ↓
+Scheme Recommendations
+    ↓
+Eligibility + Documents + Guidance
+🛠️ Technology Stack
+Frontend
+React
+Vite
+Tailwind CSS
+JavaScript
+Lucide Icons
+Backend
+Python
+FastAPI
+Uvicorn
+Artificial Intelligence
+Google Gemini API
+AI-based profile extraction
+Eligibility analysis
+Multi-agent orchestration
+Retrieval & Knowledge Base
+Retrieval-Augmented Generation (RAG)
+ChromaDB
+Sentence Transformers
+Local scheme documents
+Web Retrieval
+Serper API
+Playwright
+Chromium
+Voice
+Speech Recognition
+Text-to-Speech
+gTTS / Browser Speech APIs
+📁 Project Structure
+government-scheme-eligibility-assistant/
+│
+├── backend/
+│   ├── data/
+│   │   ├── processed/
+│   │   ├── raw_pdfs/
+│   │   └── all_schemes.json
+│   │
+│   ├── src/
+│   │   ├── agents/
+│   │   │   ├── counselor.py
+│   │   │   ├── eligibility.py
+│   │   │   ├── orchestrator.py
+│   │   │   ├── profile_agent.py
+│   │   │   ├── rag_agent.py
+│   │   │   ├── router_agent.py
+│   │   │   └── web_agent.py
+│   │   │
+│   │   ├── api/
+│   │   │   └── main.py
+│   │   │
+│   │   ├── rag/
+│   │   ├── tools/
+│   │   └── utils/
+│   │
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   └── index.css
+│   │
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tailwind.config.js
+│   └── vite.config.js
+│
+├── Project Synopsis.pdf
+├── proposal_implementation.md
+├── synopsis.md
+├── README.md
+└── .gitignore
+⚙️ Installation & Setup
+Prerequisites
+
+Make sure the following are installed:
+
+Python 3.10+
+Node.js 18+
+npm
+Git
+Google Gemini API key
+Serper API key
+1. Clone the Repository
+git clone https://github.com/shivampwr/government-scheme-eligibility-assistant.git
+cd government-scheme-eligibility-assistant
+🐍 Backend Setup
+
+Navigate to the backend directory:
+
+cd backend
+
+Create a Python virtual environment:
+
+Windows
 python -m venv venv
 
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Linux/macOS:
-source venv/bin/activate
+Activate it:
 
-# Install backend dependencies
+.\venv\Scripts\Activate.ps1
+
+Install backend dependencies:
+
 pip install -r requirements.txt
-
-# Install Playwright Chromium browser
+🌐 Install Playwright Chromium
 playwright install chromium
-```
+🔐 Environment Variables
 
-#### Configure Environment Variables
-Create a `.env` file in `backend/`:
-```env
-GEMINI_API_KEY=your_google_gemini_api_key_here
-SERPER_API_KEY=your_serper_api_key_here
-HOST=127.0.0.1
+Create a .env file inside the backend directory.
+
+Use .env.example as a template.
+
+HOST=0.0.0.0
 PORT=8000
+ENVIRONMENT=development
+
+GEMINI_API_KEY=your_gemini_api_key
+SERPER_API_KEY=your_serper_api_key
+
+CHROMA_PERSIST_DIR=vectorstore
+RAW_PDFS_DIR=data/raw_pdfs
+PROCESSED_DATA_DIR=data/processed
+
 COSINE_SIMILARITY_THRESHOLD=0.70
-```
+TOP_K_RESULTS=4
+⚠️ Security
 
-#### Seed Playwright Scraped Text & Build Vector DB
-```bash
-# Batch scrape all core schemes with Playwright and ingest into ChromaDB
-python -m src.rag.ingest_playwright
-```
+Never upload your actual .env file or API keys to GitHub.
 
-#### Start FastAPI Server
-```bash
+The repository .gitignore is configured to prevent environment files and other sensitive/local files from being committed.
+
+🚀 Run Backend
+
+From the backend directory:
+
 python -m src.api.main
-# Server will run on http://localhost:8000
-```
 
----
+The backend will run at:
 
-### 2. Frontend Setup
+http://localhost:8000
 
-Open a new terminal window:
-```bash
-cd Government-Scheme-Discovery-Eligibility-Assistant/frontend
+API health endpoint:
 
-# Install Node modules
+http://localhost:8000/api/health
+💻 Frontend Setup
+
+Open another terminal and navigate to the frontend:
+
+cd frontend
+
+Install dependencies:
+
 npm install
 
-# Start Vite Development Server
+Run the development server:
+
 npm run dev
-# Frontend will open on http://localhost:5173
-```
 
----
+The frontend will be available at:
 
-## 🎓 Team & Academic Credits
+http://localhost:3000
+🔌 API Endpoints
+Endpoint	Purpose
+/	API status
+/api/health	Health check
+/api/chat	AI conversational interaction
+/api/schemes	Scheme information
+/api/text-to-speech	Text-to-speech
+/api/audio-to-text	Speech-to-text
+🧪 Example Query
 
-- **Course:** B.Tech VII Semester Minor Project (2023-2027)
-- **Department:** Computer Science & Engineering
-- **Institution:** Maharaja Agrasen Institute of Technology (MAIT), Delhi
-- **Team ID:** `MNP007`
-- **Team Members:**
-  - **Keshav Jindal** (Enrollment No. 00496402723)
-  - **Vaibhav Garg** (Enrollment No. 01196402723)
-- **Project Guide:** Dr. Yogesh Sharma
+A user can ask:
 
+I am a 25 year old farmer from Madhya Pradesh.
+My annual income is around 2 lakh.
+What government schemes can I apply for?
 
+The system processes the user's profile and returns relevant government scheme information along with eligibility-related details.
+
+👥 Project Team
+🏆 Team Leader
+Shivam Digarse
+
+Enrollment No.: 0133CL231123
+
+B.Tech — Artificial Intelligence & Machine Learning
+Sagar Institute of Research & Technology, Bhopal
+
+Team Members
+Name	Enrollment Number	Role
+Shivam Digarse	0133CL231123	Team Leader
+Sachin Sahu	01323CL231116	Team Member
+Siddharth Tiwari	01323CL231130	Team Member
+Prashant Patel	0133CL231104	Team Member
+Mahendra Shilpkar	01323CL243D08	Team Member
+Project Mentor
+
+Monika Mam
+
+🎓 Academic Information
+Field	Details
+Project Title	AI Based Government Scheme & Eligibility Assistant System
+Project Type	Major Project
+Institute	Sagar Institute of Research & Technology, Bhopal
+Department	Artificial Intelligence & Machine Learning
+Program	B.Tech
+Batch	2023–2027
+Mentor	Monika Mam
+Team Leader	Shivam Digarse
+🌍 Social Impact
+
+The project aims to improve accessibility to government welfare information by providing a conversational interface through which citizens can discover schemes and understand their eligibility requirements.
+
+Potential areas of impact include:
+
+Farmers
+Students
+Women
+Senior citizens
+Small businesses
+Workers
+Rural communities
+Economically weaker sections
+
+The platform is designed to simplify access to information and help users understand which government schemes may be relevant to their circumstances.
+
+Users should verify the latest eligibility criteria, benefits and application procedures through the relevant official government source before applying.
+
+🔒 Security & Privacy
+API keys are stored using environment variables.
+.env files are excluded from Git tracking.
+API keys should never be committed to the repository.
+Users should avoid entering unnecessary sensitive personal information.
+Government scheme information should be verified through official sources before making decisions.
+📚 Project Documentation
+
+The repository contains additional project documentation:
+
+Project Synopsis.pdf
+synopsis.md
+proposal_implementation.md
+
+These documents contain project synopsis, planning and implementation-related information.
+
+🙏 Attribution
+
+This project is an academic adaptation and customization based on an existing open-source Government Scheme Discovery & Eligibility Assistant project.
+
+The original project is acknowledged as the source from which the initial application structure and implementation were obtained.
+
+This repository contains project-specific customization, user-interface modifications, academic documentation and team/institution information for the Sagar Institute of Research & Technology, Bhopal Major Project.
+
+Original Source Repository
+
+https://github.com/vgarg05/Government-Scheme-Discovery-Eligibility-Assistant
+
+⚠️ Disclaimer
+
+This application is intended for educational and informational purposes.
+
+Government scheme eligibility criteria, benefits, application procedures and availability may change over time. Users should verify the latest information through official government portals before applying for any scheme or making financial decisions.
+
+⭐ Project
+AI Based Government Scheme & Eligibility Assistant System
+
+B.Tech Major Project
+
+Department of Artificial Intelligence & Machine Learning
+
+Sagar Institute of Research & Technology, Bhopal
+
+Team Leader: Shivam Digarse
+Batch: 2023–2027
