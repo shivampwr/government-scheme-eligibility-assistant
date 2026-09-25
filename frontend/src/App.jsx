@@ -183,7 +183,7 @@ export default function App() {
                   margin: 0,
                 }}
               >
-                Monika Mam
+                Monika Ma'am
               </h3>
 
               <p
